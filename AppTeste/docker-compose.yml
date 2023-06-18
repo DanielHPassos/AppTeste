@@ -1,0 +1,26 @@
+version: '3'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 8080:80
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    depends_on:
+      - db
+  db:
+    image: mcr.microsoft.com/mssql/server
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=r00t.R00T
+      - MSSQL_PID=Express
+    volumes:
+      - dbdata:/var/opt/mssql
+      - ./scripts:/docker-entrypoint-initdb.d
+    ports:
+      - 1433:1433
+
+volumes:
+  dbdata:

@@ -1,4 +1,17 @@
 
+using AppTeste.Models;
+using AppTeste.Repositories;
+using AppTeste.Repositories.Context;
+using AppTeste.Validators;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Data;
+
+
+
 namespace AppTeste
 {
     public class Program
@@ -7,7 +20,19 @@ namespace AppTeste
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            IConfiguration configuration = builder.Configuration.GetSection("ConnectionStrings");
+
+            ConfigSettings config = new ConfigSettings();
+            config.ConnectionString = configuration["DefaultConnection"];
+
+            builder.Services.AddSingleton<ConfigSettings>(config);
+            builder.Services.AddFluentValidation();
+            builder.Services.AddValidatorsFromAssemblyContaining<InserirClienteInputModelValidator>();
+
+            builder.Services.AddDbContext<AppTesteDbContext>(options =>
+                options.UseSqlServer(config.ConnectionString));
+
+            builder.Services.AddScoped<IClientesRepository, ClientesRepository>();
 
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -23,6 +48,13 @@ namespace AppTeste
                 app.UseSwaggerUI();
             }
 
+
+            //if (app.Environment.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //    app.UseSwagger();
+            //    app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "app v1"));
+            //}
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
