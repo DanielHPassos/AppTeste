@@ -1,6 +1,7 @@
 ﻿using AppTeste.Models.DTOs;
 using AppTeste.Models.Entities;
 using AppTeste.Repositories;
+using AppTeste.Validators;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,7 @@ namespace AppTeste.Controllers
 
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Cliente>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> ListarTodos([FromQuery] ListarTodosClientesInputModel listarTodosClientesInputModel)
         {
@@ -66,7 +67,7 @@ namespace AppTeste.Controllers
 
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> Inserir([FromBody] InserirClienteInputModel inserirClienteInputModel)
         {
@@ -86,7 +87,7 @@ namespace AppTeste.Controllers
 
         [HttpPut()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(ValidationErrorResponse))]
         [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> Atualizar([FromBody] AlterarClienteInputModel alterarClienteInputModel)
         {

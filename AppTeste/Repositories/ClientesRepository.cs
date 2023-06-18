@@ -14,7 +14,7 @@ namespace AppTeste.Repositories
     {
         private readonly ConfigSettings configuration;
         private readonly AppTesteDbContext dbContext;
-       
+
         public ClientesRepository(ConfigSettings configuration, AppTesteDbContext dbContext)
         {
             this.configuration = configuration;
@@ -70,27 +70,27 @@ namespace AppTeste.Repositories
 
             if (cliente != null)
             {
-                cliente.Nome = alterarClienteInputModel.Nome;
-                cliente.RG = alterarClienteInputModel.RG;
-                cliente.DataNascimento = alterarClienteInputModel.DataNascimento.Value;
-                cliente.Telefone = alterarClienteInputModel.Telefone;
-                cliente.Email = alterarClienteInputModel.Email;
+                cliente.Nome = alterarClienteInputModel.Nome ?? cliente.Nome;
+                cliente.RG = alterarClienteInputModel.RG ?? cliente.RG;
+                cliente.DataNascimento = alterarClienteInputModel.DataNascimento ?? cliente.DataNascimento;
+                cliente.Telefone = alterarClienteInputModel.Telefone ?? cliente.Telefone;
+                cliente.Email = alterarClienteInputModel.Email ?? cliente.Email;
 
                 var enderecoCliente = cliente.ClienteEnderecos.FirstOrDefault();
                 if (enderecoCliente != null)
                 {
                     var endereco = enderecoCliente.Endereco;
-                    endereco.Rua = alterarClienteInputModel.Rua;
-                    endereco.Bairro = alterarClienteInputModel.Bairro;
-                    endereco.Numero = alterarClienteInputModel.Numero;
-                    endereco.Complemento = alterarClienteInputModel.Complemento;
-                    endereco.CEP = alterarClienteInputModel.CEP;
+                    endereco.Rua = alterarClienteInputModel.Rua ?? endereco.Rua;
+                    endereco.Bairro = alterarClienteInputModel.Bairro ?? endereco.Bairro;
+                    endereco.Numero = alterarClienteInputModel.Numero ?? endereco.Numero;
+                    endereco.Complemento = alterarClienteInputModel.Complemento ?? endereco.Complemento;
+                    endereco.CEP = alterarClienteInputModel.CEP ?? endereco.CEP;
 
                     var cidade = endereco.Cidade;
                     if (cidade != null)
                     {
-                        cidade.Nome = alterarClienteInputModel.Cidade;
-                        cidade.Estado = alterarClienteInputModel.Estado;
+                        cidade.Nome = alterarClienteInputModel.Cidade ?? cidade.Nome;
+                        cidade.Estado = alterarClienteInputModel.Estado ?? cidade.Estado;
                     }
                 }
 

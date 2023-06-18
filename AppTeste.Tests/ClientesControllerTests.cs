@@ -195,8 +195,7 @@ namespace AppTeste.Tests
                 CPF = "123456789",
                 DataNascimento = DateTime.Now,
                 Telefone = "1234567890",
-                Email = "pedro@example.com",
-                CodEmpresa = Enums.EnumCodEmpresa.Atacadao
+                Email = "pedro@example.com"
             };
 
             _clientesRepositoryMock.Setup(r => r.RealizarAlteracaoCliente(alterarClienteInputModel)).ReturnsAsync(true);
