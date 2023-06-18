@@ -24,6 +24,7 @@ WORKDIR /app
 COPY --from=build-env /app/out .
 
 # Exp�e a porta que a aplica��o est� escutando
+
 EXPOSE 80
 
 # Define o comando de inicializa��o da aplica��o

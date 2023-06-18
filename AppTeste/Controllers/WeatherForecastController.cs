@@ -1,4 +1,7 @@
+using AppTeste.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
+using System.Data;
 using System.Text.Json;
 
 namespace AppTeste.Controllers
@@ -12,34 +15,34 @@ namespace AppTeste.Controllers
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
     };
 
-        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        private readonly ILogger<WeatherForecastController> _logger;
+        private readonly ConfigSettings configuration;
+
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, ConfigSettings configuration)
         {
             _logger = logger;
+            this.configuration = configuration;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
-        public IEnumerable<WeatherForecast> Get([FromQuery] string? location)
+        public async Task<IActionResult> Get([FromQuery] string? c)
         {
-            switch (location)
+            string cc = c ?? configuration.ConnectionString;
+            try
             {
-                case "file":
-                    string fileContent = System.IO.File.ReadAllText(Path.GetFullPath(@"DockerTeste/temperatura.json"));
-                    var result = JsonSerializer.Deserialize<IEnumerable<WeatherForecast>>(fileContent);
-                    return result;
 
-                default:
-
-                    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-                    {
-                        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                        TemperatureC = Random.Shared.Next(-20, 55),
-                        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-                    })
-            .ToArray();
+                using (var connection = new SqlConnection(cc))
+                {
+                    await connection.OpenAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return Ok($"ConnectionString Passada: {cc} - {ex.ToString()}");
             }
 
+            return Ok("Sucesso");
         }
     }
 }
