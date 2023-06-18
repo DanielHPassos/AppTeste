@@ -22,6 +22,7 @@ namespace AppTeste.Controllers
         [HttpGet]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<Cliente>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> ListarTodos([FromQuery] ListarTodosClientesInputModel listarTodosClientesInputModel)
         {
             try
@@ -41,6 +42,7 @@ namespace AppTeste.Controllers
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(Cliente))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [ProducesResponseType(StatusCodes.Status404NotFound, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> Buscar([FromRoute] int idCliente)
         {
             try
@@ -65,6 +67,7 @@ namespace AppTeste.Controllers
         [HttpPost()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> Inserir([FromBody] InserirClienteInputModel inserirClienteInputModel)
         {
             try
@@ -84,6 +87,7 @@ namespace AppTeste.Controllers
         [HttpPut()]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> Atualizar([FromBody] AlterarClienteInputModel alterarClienteInputModel)
         {
             try
@@ -103,6 +107,7 @@ namespace AppTeste.Controllers
         [HttpDelete("{idCliente}")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(bool))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError, Type = typeof(string))]
         public async Task<IActionResult> Remover([FromRoute] int idCliente)
         {
             try

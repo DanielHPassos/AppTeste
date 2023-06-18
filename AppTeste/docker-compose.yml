@@ -21,6 +21,15 @@ services:
       - ./scripts:/docker-entrypoint-initdb.d
     ports:
       - 1433:1433
-
+    command:
+      - /bin/bash
+      - -c 
+      - |
+        /opt/mssql/bin/sqlservr &
+        sleep 30
+        for foo in /docker-entrypoint-initdb.d/*.sql
+          do /opt/mssql-tools/bin/sqlcmd -U sa -P $$SA_PASSWORD -l 30 -e -i $$foo
+        done
+        tail -f /dev/null
 volumes:
   dbdata:
